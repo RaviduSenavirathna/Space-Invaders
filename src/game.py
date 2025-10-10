@@ -15,11 +15,15 @@ class Game:
         pygame.display.set_caption("Space Invaders")
         self.clock = pygame.time.Clock()
         
-        # Load custom font
+        # Load custom font with error handling
         try:
+            if not os.path.exists(BYTE_BOUNCE_FONT):
+                raise FileNotFoundError(f"Font file not found: {BYTE_BOUNCE_FONT}")
             self.font = pygame.font.Font(BYTE_BOUNCE_FONT, FONT_SIZE)
-        except pygame.error:
-            print("Could not load ByteBounce font, falling back to default")
+            print("ByteBounce font loaded successfully")
+        except (pygame.error, FileNotFoundError) as e:
+            print(f"Error loading ByteBounce font: {e}")
+            print("Falling back to default font")
             self.font = pygame.font.Font(None, FONT_SIZE)
         
         # Load and scale background
@@ -125,13 +129,15 @@ class Game:
                 self.game_over = True
 
     def handle_alien_shooting(self):
-        # Control alien shooting frequency
         self.shoot_timer += 1
         if self.shoot_timer > 30 and len(self.aliens) > 0:
             self.shoot_timer = 0
-            # Random alien shoots
             shooting_alien = random.choice(list(self.aliens))
-            alien_bullet = AlienBullet(shooting_alien.rect.centerx, shooting_alien.rect.bottom)
+            alien_bullet = AlienBullet(
+                shooting_alien.rect.centerx, 
+                shooting_alien.rect.bottom,
+                shooting_alien.alien_type
+            )
             self.all_sprites.add(alien_bullet)
             self.alien_bullets.add(alien_bullet)
 

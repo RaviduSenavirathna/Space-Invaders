@@ -8,12 +8,11 @@ class Alien(pygame.sprite.Sprite):
         super().__init__()
         # Load random alien ship image
         try:
-            random_enemy = random.choice(ENEMY_SPRITES)
-            self.image = pygame.image.load(os.path.join(IMG_DIR, random_enemy)).convert_alpha()
-            # Scale image if needed (adjust size as necessary)
+            self.alien_type = random.choice(ENEMY_SPRITES)
+            self.image = pygame.image.load(os.path.join(IMG_DIR, self.alien_type)).convert_alpha()
             self.image = pygame.transform.scale(self.image, (40, 30))
         except pygame.error:
-            # Fallback to original rectangle shape if image loading fails
+            self.alien_type = 'enemy1.png'
             self.image = pygame.Surface((40, 30))
             self.image.fill(RED)
         
