@@ -92,18 +92,24 @@ class Game:
             self.alien_bullets.add(alien_bullet)
 
     def check_collisions(self):
+        # Check bullet-alien collisions
         for bullet in self.bullets:
             hit_aliens = pygame.sprite.spritecollide(bullet, self.aliens, True)
             if hit_aliens:
                 bullet.kill()
                 self.score += 10
 
+        # Check alien bullet-player collision
         if pygame.sprite.spritecollide(self.player, self.alien_bullets, True):
-            self.game_over = True
+            if self.player.take_damage():  # Will return True if health reaches 0
+                self.game_over = True
+            # Flash the player or show hit animation here if desired
 
+        # Check if all aliens destroyed
         if len(self.aliens) == 0:
             self.create_aliens()
             self.alien_direction = 1
+            self.player.heal()  # Heal player after clearing a wave
 
     def draw(self):
         self.screen.fill(BLACK)
