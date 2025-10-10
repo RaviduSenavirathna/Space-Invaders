@@ -9,10 +9,10 @@ class AlienBullet(pygame.sprite.Sprite):
             laser_image = ENEMY_LASERS.get(alien_type, 'enemy1l.png')
             self.image = pygame.image.load(os.path.join(IMG_DIR, laser_image)).convert_alpha()
             # Scale the laser image to appropriate size
-            self.image = pygame.transform.scale(self.image, (4, 15))
+            self.image = pygame.transform.scale(self.image, (6, 20))
         except pygame.error:
             # Fallback to original rectangle if image fails to load
-            self.image = pygame.Surface((8, 30))
+            self.image = pygame.Surface((4, 15))
             self.image.fill(RED)
         
         self.rect = self.image.get_rect()
