@@ -1,3 +1,4 @@
+import os
 import pygame
 import random
 import sys
@@ -9,12 +10,20 @@ from .sprites.alien_bullet import AlienBullet
 
 class Game:
     def __init__(self):
-        # Initialize Pygame and create game window
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Space Invaders")
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 36)
+        
+        # Load and scale background
+        bg_path = os.path.join(IMG_DIR, 'background.png')
+        try:
+            self.background = pygame.image.load(bg_path).convert()
+            self.background = pygame.transform.scale(self.background, (WIDTH, HEIGHT))
+        except pygame.error:
+            print(f"Could not load background image from {bg_path}")
+            self.background = None
         
         # Create sprite groups for game objects
         self.all_sprites = pygame.sprite.Group()
@@ -121,7 +130,12 @@ class Game:
             self.player.heal()  # Heal player after clearing a wave
 
     def draw(self):
-        self.screen.fill(BLACK)
+        # Draw background
+        if self.background:
+            self.screen.blit(self.background, (0, 0))
+        else:
+            self.screen.fill(BLACK)
+            
         self.all_sprites.draw(self.screen)
         self.draw_score()
         if self.game_over:
