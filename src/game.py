@@ -95,9 +95,10 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and not self.game_over:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1 and not self.game_over:  # Left mouse button
                     self.player.shoot(self.all_sprites, self.bullets)
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r and self.game_over:
                     self.reset_game()
         return True
