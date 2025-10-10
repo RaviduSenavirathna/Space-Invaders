@@ -9,7 +9,7 @@ class AlienBullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.top = y
-        self.speed = 5
+        self.speed = 2
 
     def update(self):
         self.rect.y += self.speed

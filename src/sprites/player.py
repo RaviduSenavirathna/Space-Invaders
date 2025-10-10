@@ -11,6 +11,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH // 2
         self.rect.bottom = HEIGHT - 10
         self.speed = 5
+        self.max_health = 3
+        self.health = self.max_health
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -24,3 +26,14 @@ class Player(pygame.sprite.Sprite):
         bullet = Bullet(self.rect.centerx, self.rect.top)
         all_sprites.add(bullet)
         bullets.add(bullet)
+
+    def take_damage(self):
+        self.health -= 1
+        return self.health <= 0
+
+    def heal(self):
+        if self.health < self.max_health:
+            self.health += 1
+
+    def reset_health(self):
+        self.health = self.max_health
