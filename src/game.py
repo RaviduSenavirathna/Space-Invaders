@@ -9,22 +9,26 @@ from .sprites.alien_bullet import AlienBullet
 
 class Game:
     def __init__(self):
+        # Initialize Pygame and create game window
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Space Invaders")
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 36)
         
+        # Create sprite groups for game objects
         self.all_sprites = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
         self.alien_bullets = pygame.sprite.Group()
         
+        # Initialize game state variables
         self.score = 0
         self.game_over = False
-        self.alien_direction = 1
+        self.alien_direction = 1  # 1 for right, -1 for left
         self.shoot_timer = 0
         
+        # Create player and initial aliens
         self.player = Player()
         self.all_sprites.add(self.player)
         self.create_aliens()
@@ -66,6 +70,7 @@ class Game:
         self.check_collisions()
 
     def handle_alien_movement(self):
+        # Check if any alien hits screen edges
         alien_move_down = False
         for alien in self.aliens:
             if alien.rect.right >= WIDTH or alien.rect.left <= 0:
@@ -73,19 +78,23 @@ class Game:
                 alien_move_down = True
                 break
 
+        # Move aliens down when they hit screen edges
         if alien_move_down:
             for alien in self.aliens:
                 alien.rect.y += 30
                 alien.speed = self.alien_direction
 
+        # Check if aliens reached player level
         for alien in self.aliens:
             if alien.rect.bottom >= self.player.rect.top:
                 self.game_over = True
 
     def handle_alien_shooting(self):
+        # Control alien shooting frequency
         self.shoot_timer += 1
         if self.shoot_timer > 30 and len(self.aliens) > 0:
             self.shoot_timer = 0
+            # Random alien shoots
             shooting_alien = random.choice(list(self.aliens))
             alien_bullet = AlienBullet(shooting_alien.rect.centerx, shooting_alien.rect.bottom)
             self.all_sprites.add(alien_bullet)
