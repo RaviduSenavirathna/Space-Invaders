@@ -14,7 +14,13 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Space Invaders")
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font(None, 36)
+        
+        # Load custom font
+        try:
+            self.font = pygame.font.Font(BYTE_BOUNCE_FONT, FONT_SIZE)
+        except pygame.error:
+            print("Could not load ByteBounce font, falling back to default")
+            self.font = pygame.font.Font(None, FONT_SIZE)
         
         # Load and scale background
         bg_path = os.path.join(IMG_DIR, 'background.png')
@@ -53,6 +59,14 @@ class Game:
         except pygame.error as e:
             print(f"Error loading health bar images: {e}")
             self.health_bars = None
+
+        # Load score icon
+        try:
+            self.score_icon = pygame.image.load(os.path.join(IMG_DIR, 'star.png')).convert_alpha()
+            self.score_icon = pygame.transform.scale(self.score_icon, SCORE_ICON_SIZE)
+        except pygame.error as e:
+            print(f"Error loading score icon: {e}")
+            self.score_icon = None
 
     def create_aliens(self):
         for row in range(5):
@@ -163,8 +177,18 @@ class Game:
         pygame.display.flip()
 
     def draw_score(self):
-        score_text = self.font.render(f"Score: {self.score}", True, WHITE)
-        self.screen.blit(score_text, (10, 10))
+        # Draw score icon
+        if self.score_icon:
+            self.screen.blit(self.score_icon, SCORE_POSITION)
+        
+        # Draw score text with ByteBounce font in yellow
+        score_text = self.font.render(f"{self.score}", True, YELLOW)
+        score_pos = (SCORE_POSITION[0] + SCORE_TEXT_OFFSET, SCORE_POSITION[1])
+        self.screen.blit(score_text, score_pos)
+
+        # Draw health bar if implemented
+        if hasattr(self, 'draw_health_bar'):
+            self.draw_health_bar()
 
     def draw_health_bar(self):
         if self.health_bars:
