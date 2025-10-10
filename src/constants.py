@@ -41,3 +41,6 @@ FPS = 60
 FONT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fonts')
 BYTE_BOUNCE_FONT = os.path.join(FONT_DIR, 'ByteBounce.ttf')
 FONT_SIZE = 36
+
+# Sound paths
+SOUND_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Sound Effects')

@@ -1,6 +1,6 @@
 import os
 import pygame
-from ..constants import WIDTH, HEIGHT, GREEN, WHITE, IMG_DIR
+from ..constants import WIDTH, HEIGHT, GREEN, WHITE, IMG_DIR, SOUND_DIR
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -26,6 +26,13 @@ class Player(pygame.sprite.Sprite):
         self.max_health = 5
         self.health = self.max_health
 
+        # Load laser sound
+        try:
+            self.laser_sound = pygame.mixer.Sound(os.path.join(SOUND_DIR, 'laser_shoot.wav'))
+        except pygame.error:
+            print("Could not load laser sound effect")
+            self.laser_sound = None
+
     def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] and self.rect.left > 0:
@@ -38,6 +45,10 @@ class Player(pygame.sprite.Sprite):
         bullet = Bullet(self.rect.centerx, self.rect.top)
         all_sprites.add(bullet)
         bullets.add(bullet)
+        
+        # Play laser sound
+        if self.laser_sound:
+            self.laser_sound.play()
 
     def take_damage(self):
         self.health -= 1
