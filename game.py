@@ -35,9 +35,9 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT] and self.rect.left > 0:
+        if keys[pygame.K_a] and self.rect.left > 0:
             self.rect.x -= self.speed
-        if keys[pygame.K_RIGHT] and self.rect.right < WIDTH:
+        if keys[pygame.K_d] and self.rect.right < WIDTH:
             self.rect.x += self.speed
 
     def shoot(self):
@@ -130,21 +130,21 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and not game_over:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1 and not game_over:  # Left mouse button
                 player.shoot()
-            if event.key == pygame.K_r and game_over:
-                # Restart game
-                game_over = False
-                score = 0
-                all_sprites.empty()
-                aliens.empty()
-                bullets.empty()
-                alien_bullets.empty()
-                player = Player()
-                all_sprites.add(player)
-                create_aliens()
-                alien_direction = 1
+        if event.key == pygame.K_r and game_over:
+            # Restart game
+            game_over = False
+            score = 0
+            all_sprites.empty()
+            aliens.empty()
+            bullets.empty()
+            alien_bullets.empty()
+            player = Player()
+            all_sprites.add(player)
+            create_aliens()
+            alien_direction = 1
 
     if not game_over:
         # Update
