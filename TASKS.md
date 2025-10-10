@@ -19,7 +19,6 @@
   - [ ] Multi-shot power-up
 - [ ] Add high score system
   - [ ] Save high scores to file
-  - [ ] Display top 10 scores
 - [ ] Add different alien movement patterns
   - [ ] Zigzag movement
   - [ ] Diving attacks
@@ -33,6 +32,7 @@
 - [ ] Add background elements
   - [ ] Scrolling stars
   - [ ] Distant planets
+  - [ ] Background music
 - [ ] Improve UI elements
   - [ ] Add game over screen
   - [ ] Add pause menu
@@ -40,17 +40,8 @@
 
 ## Code Improvements
 - [ ] Add proper documentation
-  - [ ] Add docstrings to all classes
-  - [ ] Add docstrings to major methods
-  - [ ] Create API documentation
 - [ ] Implement unit tests
-  - [ ] Test collision detection
-  - [ ] Test scoring system
-  - [ ] Test power-up effects
 - [ ] Code optimization
-  - [ ] Optimize sprite groups
-  - [ ] Implement object pooling
-  - [ ] Profile and optimize performance
 
 ## Bug Fixes
 - [ ] Fix health bar position on different resolutions
@@ -58,7 +49,6 @@
 - [ ] Fix player movement boundaries
 
 ## Future Features
-- [ ] Add multiplayer support
 - [ ] Add different game modes
   - [ ] Survival mode
   - [ ] Time attack mode
@@ -71,7 +61,6 @@
 - [ ] Create installation package
 - [ ] Write user manual
 - [ ] Add game credits
-- [ ] Create promotional materials
 
 ## Notes
 - Priority levels: High, Medium, Low
