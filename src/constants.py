@@ -16,3 +16,6 @@ YELLOW = (255, 255, 0)
 
 # Game performance settings
 FPS = 60  # Frames per second
+
+# Enemy sprites
+ENEMY_SPRITES = ['enemy1.png', 'enemy2.png', 'enemy3.png', 'enemy4.png']

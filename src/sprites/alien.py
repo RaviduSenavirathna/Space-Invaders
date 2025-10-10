@@ -1,13 +1,15 @@
 import os
+import random
 import pygame
-from ..constants import RED, IMG_DIR
+from ..constants import RED, IMG_DIR, ENEMY_SPRITES
 
 class Alien(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        # Load alien ship image
+        # Load random alien ship image
         try:
-            self.image = pygame.image.load(os.path.join(IMG_DIR, 'enemy1.png')).convert_alpha()
+            random_enemy = random.choice(ENEMY_SPRITES)
+            self.image = pygame.image.load(os.path.join(IMG_DIR, random_enemy)).convert_alpha()
             # Scale image if needed (adjust size as necessary)
             self.image = pygame.transform.scale(self.image, (40, 30))
         except pygame.error:
