@@ -19,3 +19,7 @@ FPS = 60  # Frames per second
 
 # Enemy sprites
 ENEMY_SPRITES = ['enemy1.png', 'enemy2.png', 'enemy3.png', 'enemy4.png']
+
+# Health bar images
+HEALTH_BAR_IMAGES = [f'hb{i}.png' for i in range(6)]  # hb0 to hb5
+HEALTH_BAR_POSITION = (WIDTH - 150, 10)  # Position in top right corner

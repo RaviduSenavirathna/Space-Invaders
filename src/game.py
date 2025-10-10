@@ -42,6 +42,18 @@ class Game:
         self.all_sprites.add(self.player)
         self.create_aliens()
 
+        # Load health bar images
+        self.health_bars = []
+        try:
+            for hb_file in HEALTH_BAR_IMAGES:
+                img = pygame.image.load(os.path.join(IMG_DIR, hb_file)).convert_alpha()
+                # Scale the health bar image if needed
+                img = pygame.transform.scale(img, (140, 20))  # Adjust size as needed
+                self.health_bars.append(img)
+        except pygame.error as e:
+            print(f"Error loading health bar images: {e}")
+            self.health_bars = None
+
     def create_aliens(self):
         for row in range(5):
             for col in range(10):
@@ -135,16 +147,31 @@ class Game:
             self.screen.blit(self.background, (0, 0))
         else:
             self.screen.fill(BLACK)
-            
+        
+        # Draw sprites
         self.all_sprites.draw(self.screen)
+        
+        # Draw score
         self.draw_score()
+        
+        # Draw health bar
+        self.draw_health_bar()
+        
         if self.game_over:
             self.draw_game_over()
+        
         pygame.display.flip()
 
     def draw_score(self):
         score_text = self.font.render(f"Score: {self.score}", True, WHITE)
         self.screen.blit(score_text, (10, 10))
+
+    def draw_health_bar(self):
+        if self.health_bars:
+            # Clamp health value to valid range for array index
+            health_index = max(0, min(self.player.health, len(self.health_bars) - 1))
+            health_bar = self.health_bars[health_index]
+            self.screen.blit(health_bar, HEALTH_BAR_POSITION)
 
     def draw_game_over(self):
         game_over_text = self.font.render("GAME OVER", True, RED)
