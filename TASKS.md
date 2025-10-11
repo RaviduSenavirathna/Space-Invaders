@@ -1,10 +1,10 @@
 # Space Invaders Development Tasks
 
 ## High Priority
-- [ ] Fix collision detection between player and alien bullets
+- [x] Fix collision detection between player and alien bullets
 - [ ] Add sound effects for:
   - [x] Player shooting
-  - [ ] Enemy explosions
+  - [x] Enemy explosions
   - [x] Player hit
   - [ ] Game over
 - [ ] Implement difficulty increase system
@@ -21,21 +21,21 @@
   - [ ] Save high scores to file
 - [ ] Add different alien movement patterns
   - [ ] Zigzag movement
-  - [ ] Diving attacks
+  - [x] Diving attacks
 - [ ] Add boss battles every 5 waves
 
 ## Visual Improvements
 - [ ] Add particle effects
-  - [ ] Explosion animations
+  - [x] Explosion animations
   - [ ] Engine trail for player ship
-  - [ ] Laser impact effects
+  - [x] Laser impact effects
 - [ ] Add background elements
   - [ ] Scrolling stars
   - [ ] Distant planets
   - [ ] Background music
 - [ ] Improve UI elements
   - [ ] Add game over screen
-  - [ ] Add pause menu
+  - [x] Add pause menu
   - [ ] Add start menu
 
 ## Code Improvements
