@@ -14,7 +14,7 @@ class Game:
         pygame.init()
         pygame.mixer.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption("Space Invaders")
+        pygame.display.set_caption("Invaders RM")
         self.clock = pygame.time.Clock()
         
         # Load custom font with error handling
