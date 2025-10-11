@@ -7,6 +7,7 @@ from .sprites.player import Player
 from .sprites.alien import Alien
 from .sprites.bullet import Bullet
 from .sprites.alien_bullet import AlienBullet
+from .sprites.explosion import Explosion
 
 class Game:
     def __init__(self):
@@ -41,6 +42,7 @@ class Game:
         self.aliens = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
         self.alien_bullets = pygame.sprite.Group()
+        self.explosions = pygame.sprite.Group()
         
         # Initialize game state variables
         self.score = 0
@@ -136,6 +138,7 @@ class Game:
         self.handle_alien_movement()
         self.handle_alien_shooting()
         self.check_collisions()
+        self.explosions.update()
 
     def handle_alien_movement(self):
         # Spawn new aliens periodically
@@ -199,11 +202,12 @@ class Game:
     def check_collisions(self):
         # Check bullet-alien collisions
         for bullet in self.bullets:
-            hit_aliens = pygame.sprite.spritecollide(bullet, self.aliens, True)
-            if hit_aliens:
+            hits = pygame.sprite.spritecollide(bullet, self.aliens, True)
+            for alien in hits:
+                explosion = Explosion(alien.rect.centerx, alien.rect.centery)
+                self.all_sprites.add(explosion)
+                self.explosions.add(explosion)
                 bullet.kill()
-                if self.explosion_sound: # Play explosion sound
-                    self.explosion_sound.play() 
                 self.score += 10
 
         # Check alien bullet-player collision

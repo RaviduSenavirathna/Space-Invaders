@@ -48,3 +48,7 @@ SOUND_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'sound effe
 LASER_SOUND = 'laser_shoot.wav'
 HIT_SOUND = 'hit_hurt.wav'
 EXPLOSION_SOUND = 'explosion.wav'
+
+# Explosion animation
+EXPLOSION_FRAMES = 3  # Number of snowflake images
+EXPLOSION_IMAGES = [f'explosion{i}.png' for i in range(EXPLOSION_FRAMES)]
