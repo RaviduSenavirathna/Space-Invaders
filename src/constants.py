@@ -44,3 +44,6 @@ FONT_SIZE = 36
 
 # Sound paths
 SOUND_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'sound effects')
+# Sound effects
+LASER_SOUND = 'laser_shoot.wav'
+HIT_SOUND = 'hit_hurt.wav'

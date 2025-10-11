@@ -26,12 +26,14 @@ class Player(pygame.sprite.Sprite):
         self.max_health = 5
         self.health = self.max_health
 
-        # Load laser sound
+        # Load sound effects
         try:
             self.laser_sound = pygame.mixer.Sound(os.path.join(SOUND_DIR, 'laser_shoot.wav'))
-        except pygame.error:
-            print("Could not load laser sound effect")
+            self.hit_sound = pygame.mixer.Sound(os.path.join(SOUND_DIR, 'hit_hurt.wav'))
+        except pygame.error as e:
+            print(f"Could not load sound effects: {e}")
             self.laser_sound = None
+            self.hit_sound = None
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -52,6 +54,8 @@ class Player(pygame.sprite.Sprite):
 
     def take_damage(self):
         self.health -= 1
+        if self.hit_sound:
+            self.hit_sound.play()
         return self.health <= 0
 
     def heal(self):
