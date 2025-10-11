@@ -154,7 +154,7 @@ class Game:
         # Check if aliens reached player level
         for alien in self.aliens:
             if alien.rect.bottom >= self.player.rect.top:
-                self.game_over = True
+                self.game_over = False
 
     def handle_alien_shooting(self):
         self.shoot_timer += 1
