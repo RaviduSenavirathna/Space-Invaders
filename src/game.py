@@ -90,7 +90,7 @@ class Game:
         # Randomly position alien at the top of the screen
         x = random.randint(50, WIDTH - 50)  # Random x position
         alien = Alien(x, -50)  # Start above the screen
-        alien.speed = random.uniform(1, 2)  # Vertical speed
+        alien.speed = random.uniform(0.2, 1)  # Vertical speed
         self.all_sprites.add(alien)
         self.aliens.add(alien)
 
@@ -157,8 +157,8 @@ class Game:
                 self.game_over = False
 
     def handle_alien_shooting(self):
-        self.shoot_timer += 1
-        if self.shoot_timer > 30 and len(self.aliens) > 0:
+        self.shoot_timer += 0.2
+        if self.shoot_timer > 10 and len(self.aliens) > 0:
             self.shoot_timer = 0
             
             # Create a dictionary to track the frontmost alien in each column
