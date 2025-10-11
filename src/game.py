@@ -90,7 +90,7 @@ class Game:
         # Randomly position alien at the top of the screen
         x = random.randint(50, WIDTH - 50)  # Random x position
         alien = Alien(x, -50)  # Start above the screen
-        alien.speed = random.uniform(2, 4)  # Vertical speed
+        alien.speed = random.uniform(1, 2)  # Vertical speed
         self.all_sprites.add(alien)
         self.aliens.add(alien)
 
