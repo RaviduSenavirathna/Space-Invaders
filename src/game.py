@@ -47,7 +47,17 @@ class Game:
         self.game_over = False
         self.alien_direction = 1  # 1 for right, -1 for left
         self.shoot_timer = 0
+        self.paused = False  # Add pause state variable
         
+        # Load or create pause text
+        try:
+            self.pause_text = self.font.render("PAUSED", True, WHITE)
+            self.pause_hint = self.font.render("Press ESC to Resume", True, WHITE)
+        except AttributeError:
+            # Fallback if font isn't loaded
+            self.pause_text = pygame.font.Font(None, 74).render("PAUSED", True, WHITE)
+            self.pause_hint = pygame.font.Font(None, 36).render("Press ESC to Resume", True, WHITE)
+
         # Create player and initial aliens
         self.player = Player()
         self.all_sprites.add(self.player)
@@ -99,7 +109,7 @@ class Game:
         while running:
             self.clock.tick(FPS)
             running = self.handle_events()
-            if not self.game_over:
+            if not self.game_over and not self.paused:  # Only update if not paused
                 self.update()
             self.draw()
         
@@ -110,12 +120,15 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1 and not self.game_over:  # Left mouse button
-                    self.player.shoot(self.all_sprites, self.bullets)
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r and self.game_over:
+                if event.key == pygame.K_ESCAPE:
+                    self.paused = not self.paused  # Toggle pause state
+                elif event.key == pygame.K_r and self.game_over:
                     self.reset_game()
+            if not self.paused:  # Only handle game inputs when not paused
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1 and not self.game_over:
+                        self.player.shoot(self.all_sprites, self.bullets)
         return True
 
     def update(self):
@@ -223,6 +236,19 @@ class Game:
         
         if self.game_over:
             self.draw_game_over()
+        
+        if self.paused:
+            # Create semi-transparent overlay
+            overlay = pygame.Surface((WIDTH, HEIGHT))
+            overlay.fill((0, 0, 0))
+            overlay.set_alpha(128)
+            self.screen.blit(overlay, (0, 0))
+            
+            # Draw pause text
+            pause_rect = self.pause_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 30))
+            hint_rect = self.pause_hint.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 30))
+            self.screen.blit(self.pause_text, pause_rect)
+            self.screen.blit(self.pause_hint, hint_rect)
         
         pygame.display.flip()
 
