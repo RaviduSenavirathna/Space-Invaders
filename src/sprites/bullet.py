@@ -1,6 +1,6 @@
 import os
 import pygame
-from ..constants import YELLOW, IMG_DIR, PLAYER_LASER
+from ..constants import *
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y):

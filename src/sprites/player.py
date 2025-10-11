@@ -1,6 +1,6 @@
 import os
 import pygame
-from ..constants import WIDTH, HEIGHT, GREEN, WHITE, IMG_DIR, SOUND_DIR
+from ..constants import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):

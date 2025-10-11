@@ -1,7 +1,7 @@
 import os
 import random
 import pygame
-from ..constants import RED, IMG_DIR, ENEMY_SPRITES
+from ..constants import *
 
 class Alien(pygame.sprite.Sprite):
     def __init__(self, x, y):

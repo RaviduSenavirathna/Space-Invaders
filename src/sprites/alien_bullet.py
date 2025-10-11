@@ -1,6 +1,6 @@
 import os
 import pygame
-from ..constants import RED, IMG_DIR, ENEMY_LASERS, HEIGHT
+from ..constants import *
 
 class AlienBullet(pygame.sprite.Sprite):
     def __init__(self, x, y, alien_type):
