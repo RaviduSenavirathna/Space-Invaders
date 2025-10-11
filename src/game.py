@@ -133,14 +133,26 @@ class Game:
         self.shoot_timer += 1
         if self.shoot_timer > 30 and len(self.aliens) > 0:
             self.shoot_timer = 0
-            shooting_alien = random.choice(list(self.aliens))
-            alien_bullet = AlienBullet(
-                shooting_alien.rect.centerx, 
-                shooting_alien.rect.bottom,
-                shooting_alien.alien_type
-            )
-            self.all_sprites.add(alien_bullet)
-            self.alien_bullets.add(alien_bullet)
+            
+            # Create a dictionary to track the frontmost alien in each column
+            frontline_aliens = {}
+            
+            # Find the frontmost alien in each column
+            for alien in self.aliens:
+                column = alien.rect.centerx
+                if column not in frontline_aliens or alien.rect.bottom > frontline_aliens[column].rect.bottom:
+                    frontline_aliens[column] = alien
+            
+            # Randomly select one of the frontline aliens to shoot
+            if frontline_aliens:
+                shooting_alien = random.choice(list(frontline_aliens.values()))
+                alien_bullet = AlienBullet(
+                    shooting_alien.rect.centerx, 
+                    shooting_alien.rect.bottom,
+                    shooting_alien.alien_type
+                )
+                self.all_sprites.add(alien_bullet)
+                self.alien_bullets.add(alien_bullet)
 
     def check_collisions(self):
         # Check bullet-alien collisions
