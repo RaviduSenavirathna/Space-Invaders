@@ -164,11 +164,13 @@ class Game:
             # Create a dictionary to track the frontmost alien in each column
             frontline_aliens = {}
             
-            # Find the frontmost alien in each column
+            # Find the frontmost alien in each column that is visible on screen
             for alien in self.aliens:
-                column = alien.rect.centerx
-                if column not in frontline_aliens or alien.rect.bottom > frontline_aliens[column].rect.bottom:
-                    frontline_aliens[column] = alien
+                # Only consider aliens that have entered the screen
+                if alien.rect.top > 0:
+                    column = alien.rect.centerx
+                    if column not in frontline_aliens or alien.rect.bottom > frontline_aliens[column].rect.bottom:
+                        frontline_aliens[column] = alien
             
             # Randomly select one of the frontline aliens to shoot
             if frontline_aliens:
