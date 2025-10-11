@@ -214,6 +214,18 @@ class Game:
             self.alien_direction = 1
             self.player.heal()  # Heal player after clearing a wave
 
+        # End game when alien hit player
+        for alien in self.aliens:
+            if pygame.sprite.collide_rect(alien, self.player):
+                self.game_over = True
+
+        # Use explosion on player hit
+        if self.game_over:
+            explosion = Explosion(self.player.rect.centerx, self.player.rect.centery)
+            self.all_sprites.add(explosion)
+            self.explosions.add(explosion)
+            self.player.kill()
+
     def draw(self):
         # Draw background
         if self.background:
