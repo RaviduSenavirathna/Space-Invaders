@@ -3,9 +3,9 @@
 ## High Priority
 - [ ] Fix collision detection between player and alien bullets
 - [ ] Add sound effects for:
-  - [ ] Player shooting
+  - [x] Player shooting
   - [ ] Enemy explosions
-  - [ ] Player hit
+  - [x] Player hit
   - [ ] Game over
 - [ ] Implement difficulty increase system
   - [ ] Increase alien movement speed
