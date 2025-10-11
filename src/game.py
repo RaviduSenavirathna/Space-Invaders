@@ -77,14 +77,6 @@ class Game:
             print(f"Error loading health bar images: {e}")
             self.health_bars = None
 
-        # Load sound effects
-        try:
-            self.explosion_sound = pygame.mixer.Sound(os.path.join(SOUND_DIR, 'explosion.wav'))
-            self.explosion_sound.set_volume(0.2)  # Set volume to a reasonable level
-        except pygame.error as e:
-            print(f"Could not load sound effects: {e}")
-            self.explosion_sound = None
-
         # Load score icon
         try:
             self.score_icon = pygame.image.load(os.path.join(IMG_DIR, 'star.png')).convert_alpha()
