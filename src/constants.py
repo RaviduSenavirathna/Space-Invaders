@@ -47,3 +47,4 @@ SOUND_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'sound effe
 # Sound effects
 LASER_SOUND = 'laser_shoot.wav'
 HIT_SOUND = 'hit_hurt.wav'
+EXPLOSION_SOUND = 'explosion.wav'

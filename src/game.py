@@ -11,6 +11,7 @@ from .sprites.alien_bullet import AlienBullet
 class Game:
     def __init__(self):
         pygame.init()
+        pygame.mixer.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Space Invaders")
         self.clock = pygame.time.Clock()
@@ -63,6 +64,14 @@ class Game:
         except pygame.error as e:
             print(f"Error loading health bar images: {e}")
             self.health_bars = None
+
+        # Load sound effects
+        try:
+            self.explosion_sound = pygame.mixer.Sound(os.path.join(SOUND_DIR, 'explosion.wav'))
+            self.explosion_sound.set_volume(0.2)  # Set volume to a reasonable level
+        except pygame.error as e:
+            print(f"Could not load sound effects: {e}")
+            self.explosion_sound = None
 
         # Load score icon
         try:
@@ -160,6 +169,8 @@ class Game:
             hit_aliens = pygame.sprite.spritecollide(bullet, self.aliens, True)
             if hit_aliens:
                 bullet.kill()
+                if self.explosion_sound: # Play explosion sound
+                    self.explosion_sound.play() 
                 self.score += 10
 
         # Check alien bullet-player collision

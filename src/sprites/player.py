@@ -30,6 +30,9 @@ class Player(pygame.sprite.Sprite):
         try:
             self.laser_sound = pygame.mixer.Sound(os.path.join(SOUND_DIR, 'laser_shoot.wav'))
             self.hit_sound = pygame.mixer.Sound(os.path.join(SOUND_DIR, 'hit_hurt.wav'))
+            self.laser_sound.set_volume(0.4)  # Set volume to a reasonable level
+            self.hit_sound.set_volume(0.4)  # Set volume to a reasonable level
+
         except pygame.error as e:
             print(f"Could not load sound effects: {e}")
             self.laser_sound = None
