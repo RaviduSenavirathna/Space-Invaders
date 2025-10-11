@@ -11,18 +11,18 @@
   - [ ] Increase alien movement speed
   - [ ] Increase alien shooting frequency
   - [ ] Add more aliens per wave
+  - [ ] Add power-up
 
 ## Game Features
-- [ ] Add power-ups
   - [ ] Shield power-up
   - [ ] Rapid fire power-up
-  - [ ] Multi-shot power-up
+  - [ ] Laser power-up
+  - [ ] Multi-spaceship power-up
 - [ ] Add high score system
   - [ ] Save high scores to file
 - [ ] Add different alien movement patterns
   - [ ] Zigzag movement
   - [x] Diving attacks
-- [ ] Add boss battles every 5 waves
 
 ## Visual Improvements
 - [ ] Add particle effects
@@ -44,18 +44,10 @@
 - [ ] Code optimization
 
 ## Bug Fixes
-- [ ] Fix health bar position on different resolutions
-- [ ] Fix enemy laser alignment
-- [ ] Fix player movement boundaries
-
-## Future Features
-- [ ] Add different game modes
-  - [ ] Survival mode
-  - [ ] Time attack mode
-- [ ] Add customization options
-  - [ ] Ship skins
-  - [ ] Color schemes
-  - [ ] Difficulty presets
+- [ ] Fix full resolution alignment
+- [x] Fix enemy laser alignment
+- [x] Fix player movement boundaries
+- [ ] Pause and restart menus overlapping
 
 ## Release Preparation
 - [ ] Create installation package
