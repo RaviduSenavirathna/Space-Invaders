@@ -82,11 +82,17 @@ class Game:
             self.score_icon = None
 
     def create_aliens(self):
-        for row in range(5):
-            for col in range(10):
-                alien = Alien(col * 70 + 50, row * 50 + 50)
-                self.all_sprites.add(alien)
-                self.aliens.add(alien)
+        # Initial spawn of a few aliens
+        for _ in range(3):  # Start with 3 aliens
+            self.spawn_alien()
+
+    def spawn_alien(self):
+        # Randomly position alien at the top of the screen
+        x = random.randint(50, WIDTH - 50)  # Random x position
+        alien = Alien(x, -50)  # Start above the screen
+        alien.speed = random.uniform(1, 2)  # Vertical speed
+        self.all_sprites.add(alien)
+        self.aliens.add(alien)
 
     def run(self):
         running = True
@@ -119,6 +125,18 @@ class Game:
         self.check_collisions()
 
     def handle_alien_movement(self):
+        # Spawn new aliens periodically
+        if random.random() < 0.02:  # 2% chance each frame to spawn a new alien
+            self.spawn_alien()
+        
+        # Check if any alien reached the bottom
+        for alien in self.aliens:
+            if alien.rect.top >= HEIGHT:
+                alien.kill()
+                self.player.take_damage()
+                if self.player.health <= 0:
+                    self.game_over = True
+
         # Check if any alien hits screen edges
         alien_move_down = False
         for alien in self.aliens:
