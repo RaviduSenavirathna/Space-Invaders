@@ -19,7 +19,8 @@ class Alien(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.speed = 1  # Initial movement speed (positive = right, negative = left)
+        self.speed = 1  # Default vertical speed
 
     def update(self):
-        self.rect.x += self.speed
+        # Move straight down
+        self.rect.y += self.speed
