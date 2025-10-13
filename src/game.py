@@ -103,7 +103,7 @@ class Game:
         while running:
             self.clock.tick(FPS)
             running = self.handle_events()
-            if not self.game_over and not self.paused:  # Only update if not paused
+            if not self.game_over and not self.paused:  # Only update if game is active
                 self.update()
             self.draw()
         
@@ -115,13 +115,14 @@ class Game:
             if event.type == pygame.QUIT:
                 return False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.paused = not self.paused  # Toggle pause state
+                if event.key == pygame.K_ESCAPE and not self.game_over:
+                    # Only toggle pause if game is not over
+                    self.paused = not self.paused
                 elif event.key == pygame.K_r and self.game_over:
                     self.reset_game()
-            if not self.paused:  # Only handle game inputs when not paused
+            if not self.paused and not self.game_over:  # Only handle game inputs when not paused and not game over
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1 and not self.game_over:
+                    if event.button == 1:
                         self.player.shoot(self.all_sprites, self.bullets)
         return True
 
