@@ -28,6 +28,14 @@ class Game:
             print("Falling back to default font")
             self.font = pygame.font.Font(None, FONT_SIZE)
         
+        # Load and play background music
+        try:
+            pygame.mixer.music.load(os.path.join(SOUND_DIR, 'background audio.mp3'))  # or .mp3
+            pygame.mixer.music.set_volume(0.3)  # Adjust volume (0.0 to 1.0)
+            pygame.mixer.music.play(-1)  # -1 means loop indefinitely
+        except pygame.error as e:
+            print(f"Could not load background music: {e}")
+        
         # Load and scale background
         bg_path = os.path.join(IMG_DIR, 'background.png')
         try:
@@ -299,3 +307,5 @@ class Game:
         self.all_sprites.add(self.player)
         self.create_aliens()
         self.alien_direction = 1
+        # Restart background music
+        pygame.mixer.music.play(-1)

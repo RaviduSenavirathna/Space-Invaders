@@ -52,3 +52,6 @@ EXPLOSION_SOUND = 'explosion.wav'
 # Explosion animation
 EXPLOSION_FRAMES = 3  # Number of snowflake images
 EXPLOSION_IMAGES = [f'explosion{i}.png' for i in range(EXPLOSION_FRAMES)]
+
+# Background Music
+BACKGROUND_MUSIC = 'background audio.mp3'  # or whatever your music file is named
