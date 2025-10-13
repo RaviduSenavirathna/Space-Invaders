@@ -124,8 +124,8 @@ class Game:
                 return False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE and not self.game_over:
+                    # Only allow pause toggle during active gameplay
                     self.paused = not self.paused
-                    # Toggle music based on pause state
                     if self.paused:
                         pygame.mixer.music.pause()
                     else:
@@ -295,10 +295,20 @@ class Game:
             self.screen.blit(health_bar, HEALTH_BAR_POSITION)
 
     def draw_game_over(self):
-        game_over_text = self.font.render("GAME OVER", True, RED)
+        # Pause music when game over screen appears
+        pygame.mixer.music.pause()
+        
+        game_over_text = self.font.render("GAME OVER", True, WHITE)
         restart_text = self.font.render("Press R to Restart", True, WHITE)
-        self.screen.blit(game_over_text, (WIDTH // 2 - 100, HEIGHT // 2 - 20))
-        self.screen.blit(restart_text, (WIDTH // 2 - 150, HEIGHT // 2 + 20))
+        score_text = self.font.render(f"Final Score: {self.score}", True, WHITE)
+        
+        game_over_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
+        restart_rect = restart_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 10))
+        score_rect = score_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 20))
+        
+        self.screen.blit(game_over_text, game_over_rect)
+        self.screen.blit(restart_text, restart_rect)
+        self.screen.blit(score_text, score_rect)
 
     def reset_game(self):
         self.game_over = False
@@ -311,5 +321,5 @@ class Game:
         self.all_sprites.add(self.player)
         self.create_aliens()
         self.alien_direction = 1
-        # Restart background music
+        # Resume music when game restarts
         pygame.mixer.music.play(-1)
