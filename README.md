@@ -16,18 +16,19 @@ This is a modern take on the classic Space Invaders arcade game. Battle waves of
 ## Prerequisites
 - Python 3.7 or higher
 - pip (Python package installer)
+- pygame 2.5.2
 
 ## Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/Space-Invaders.git
+git clone https://github.com/RaviduSenavirathna/Invaders-RM
 cd Space-Invaders
 ```
 
 2. Install the required dependencies:
 ```bash
-pip install pygame
+pip install pygame==2.5.2
 ```
 
 ## Directory Structure
