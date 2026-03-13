@@ -1,34 +1,44 @@
-﻿# Invaders-RM
+# Space Invaders
 
-A classic arcade-style Space Invaders game built with Python and Pygame.
+A classic arcade-style **Space Invaders** game built with **Python** and **Pygame**.
+
+---
 
 ## Description
-This is a modern take on the classic Space Invaders arcade game. Battle waves of aliens, dodge their attacks, and try to achieve the highest score possible!
+
+This project recreates the classic **Space Invaders arcade game** using Python and the Pygame library. Battle waves of aliens, dodge their attacks, and try to achieve the highest score possible.
+
+---
 
 ## Features
+
 - Classic Space Invaders gameplay
 - Health system with visual health bar
 - Score tracking with star counter
 - Multiple enemy types with unique lasers
 - Custom retro font
 - Sound effects
+- Progressive difficulty system
 
-## Prerequisites
-- Python 3.7 or higher
-- pip (Python package installer)
-- pygame 2.5.2
+---
+
+## Requirements
+
+- Windows OS
+- Python (already included in the virtual environment)
+- Pygame (already installed inside the virtual environment)
+
+⚠️ This repository includes a **preconfigured virtual environment (`pygame-env`)** so you do not need to install dependencies manually.
+
+---
 
 ## Installation
 
-1. Clone the repository:
-```bash
-git clone https://github.com/RaviduSenavirathna/Invaders-RM
-cd Space-Invaders
-```
+### 1. Clone the repository
 
-2. Install the required dependencies:
-```bash
-pip install pygame==2.5.2
+```cmd
+git clone https://github.com/RaviduSenavirathna/Space-Invaders.git
+cd Space-Invaders
 ```
 
 ## Directory Structure
@@ -51,8 +61,10 @@ Space-Invaders/
 
 ## How to Play
 
-1. Run the game:
-```bash
+1. Activate the virtual envirnment and run main.py
+
+```cmd
+pygame-env\Scripts\activate
 python main.py
 ```
 
@@ -87,4 +99,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Original Space Invaders game by Tomohiro Nishikado
 - Pygame community for the excellent game development library
 - ByteBounce font creator
+
 
