@@ -1,7 +1,12 @@
 import os
+from .config import get_config
+
+# Load configuration and apply defaults
+_config = get_config()
 
 # Game window dimensions
-WIDTH, HEIGHT = 800, 600
+WIDTH = _config.get('window', {}).get('width', 800)
+HEIGHT = _config.get('window', {}).get('height', 600)
 
 # Asset paths
 IMG_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'images')

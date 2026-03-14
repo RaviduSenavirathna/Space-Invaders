@@ -3,6 +3,7 @@ import pygame
 import random
 import sys
 from .constants import *
+from .config import get_config
 from .sprites.player import Player
 from .sprites.alien import Alien
 from .sprites.bullet import Bullet
@@ -13,6 +14,15 @@ class Game:
     def __init__(self):
         pygame.init()
         pygame.mixer.init()
+
+        # Load config for runtime behavior
+        self.config = get_config()
+
+        # Convert string key names from config into pygame constants
+        self.control_keys = {}
+        for action, key_name in self.config.get('controls', {}).items():
+            self.control_keys[action] = getattr(pygame, key_name, None)
+
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Invaders RM")
         self.clock = pygame.time.Clock()
@@ -28,11 +38,14 @@ class Game:
             print("Falling back to default font")
             self.font = pygame.font.Font(None, FONT_SIZE)
         
-        # Load and play background music
+        # Load and play background music, using user config volume
         try:
-            pygame.mixer.music.load(os.path.join(SOUND_DIR, 'background audio.mp3'))  # or .mp3
-            pygame.mixer.music.set_volume(0.3)  # Adjust volume (0.0 to 1.0)
-            pygame.mixer.music.play(-1)  # -1 means loop indefinitely
+            music_path = os.path.join(SOUND_DIR, BACKGROUND_MUSIC)
+            pygame.mixer.music.load(music_path)
+            volume_pct = self.config.get('music_volume')
+            volume = max(0, min(100, volume_pct)) / 100.0
+            pygame.mixer.music.set_volume(volume)
+            pygame.mixer.music.play(-1)
         except pygame.error as e:
             print(f"Could not load background music: {e}")
         
@@ -70,6 +83,7 @@ class Game:
 
         # Create player and initial aliens
         self.player = Player()
+        self.player.control_keys = self.control_keys
         self.all_sprites.add(self.player)
         self.create_aliens()
 
@@ -123,15 +137,18 @@ class Game:
             if event.type == pygame.QUIT:
                 return False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE and not self.game_over:
+                if event.key == self.control_keys.get('pause') and not self.game_over:
                     # Only allow pause toggle during active gameplay
                     self.paused = not self.paused
                     if self.paused:
                         pygame.mixer.music.pause()
                     else:
                         pygame.mixer.music.unpause()
-                elif event.key == pygame.K_r and self.game_over:
+                elif event.key == self.control_keys.get('restart') and self.game_over:
                     self.reset_game()
+                elif event.key == self.control_keys.get('shoot') and not self.paused and not self.game_over:
+                    self.player.shoot(self.all_sprites, self.bullets)
+
             if not self.paused and not self.game_over:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:

@@ -38,11 +38,15 @@ class Player(pygame.sprite.Sprite):
             self.laser_sound = None
             self.hit_sound = None
 
+
     def update(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_a] and self.rect.left > 0:
+        left_key = self.control_keys.get('move_left')
+        right_key = self.control_keys.get('move_right')
+
+        if keys[left_key] and self.rect.left > 0:
             self.rect.x -= self.speed
-        if keys[pygame.K_d] and self.rect.right < WIDTH:
+        if keys[right_key] and self.rect.right < WIDTH:
             self.rect.x += self.speed
 
     def shoot(self, all_sprites, bullets):
