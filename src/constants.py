@@ -1,15 +1,27 @@
 import os
 from .config import get_config
 
+#---------------------------------------------
+#             Paths for Dir
+#---------------------------------------------
+
+# Path to the resources directory
+RESOURCES_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources')
+
+# Asset paths
+IMG_DIR = os.path.join(RESOURCES_DIR, 'images')
+FONT_DIR = os.path.join(RESOURCES_DIR, 'fonts')
+SOUND_DIR = os.path.join(RESOURCES_DIR, 'sound-effects')
+
+BG_DIR = os.path.join(IMG_DIR, 'bg-imgs')
+Util_DIR = os.path.join(IMG_DIR, 'utili')
+
 # Load configuration and apply defaults
 _config = get_config()
 
 # Game window dimensions
 WIDTH = _config.get('window', {}).get('width', 800)
 HEIGHT = _config.get('window', {}).get('height', 600)
-
-# Asset paths
-IMG_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'images')
 
 # Enemy sprites
 ENEMY_SPRITES = ['enemy1.png', 'enemy2.png', 'enemy3.png', 'enemy4.png']
@@ -42,13 +54,11 @@ YELLOW = (255, 255, 0)
 # Game performance settings
 FPS = 60
 
-# Font settings
-FONT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fonts')
+
 BYTE_BOUNCE_FONT = os.path.join(FONT_DIR, 'ByteBounce.ttf')
 FONT_SIZE = 36
 
-# Sound paths
-SOUND_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'sound effects')
+
 # Sound effects
 LASER_SOUND = 'laser_shoot.wav'
 HIT_SOUND = 'hit_hurt.wav'
@@ -59,4 +69,4 @@ EXPLOSION_FRAMES = 3  # Number of snowflake images
 EXPLOSION_IMAGES = [f'explosion{i}.png' for i in range(EXPLOSION_FRAMES)]
 
 # Background Music
-BACKGROUND_MUSIC = 'background audio.mp3'  # or whatever your music file is named
+BACKGROUND_MUSIC = 'bg1.mp3'  # or whatever your music file is named

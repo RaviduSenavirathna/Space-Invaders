@@ -50,7 +50,7 @@ class Game:
             print(f"Could not load background music: {e}")
         
         # Load and scale background
-        bg_path = os.path.join(IMG_DIR, 'background.png')
+        bg_path = os.path.join(BG_DIR, 'bg0.png')
         try:
             self.background = pygame.image.load(bg_path).convert()
             self.background = pygame.transform.scale(self.background, (WIDTH, HEIGHT))
@@ -91,17 +91,17 @@ class Game:
         self.health_bars = []
         try:
             for hb_file in HEALTH_BAR_IMAGES:
-                img = pygame.image.load(os.path.join(IMG_DIR, hb_file)).convert_alpha()
+                img = pygame.image.load(os.path.join(Util_DIR, hb_file)).convert_alpha()
                 # Scale the health bar image if needed
                 img = pygame.transform.scale(img, (140, 20))  # Adjust size as needed
                 self.health_bars.append(img)
-        except pygame.error as e:
+        except Exception as e:
             print(f"Error loading health bar images: {e}")
             self.health_bars = None
 
         # Load score icon
         try:
-            self.score_icon = pygame.image.load(os.path.join(IMG_DIR, 'star.png')).convert_alpha()
+            self.score_icon = pygame.image.load(os.path.join(Util_DIR, 'star.png')).convert_alpha()
             self.score_icon = pygame.transform.scale(self.score_icon, SCORE_ICON_SIZE)
         except pygame.error as e:
             print(f"Error loading score icon: {e}")
