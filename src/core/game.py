@@ -2,13 +2,14 @@ import os
 import pygame
 import random
 import sys
-from .constants import *
-from .config import get_config
-from .sprites.player import Player
-from .sprites.alien import Alien
-from .sprites.bullet import Bullet
-from .sprites.alien_bullet import AlienBullet
-from .sprites.explosion import Explosion
+
+from ..utils.constants import *
+from ..utils.config import get_config
+from ..entities.player import Player
+from ..entities.alien import Alien
+from ..entities.bullet import Bullet
+from ..entities.alien_bullet import AlienBullet
+from ..effects.explosion import Explosion
 
 class Game:
     def __init__(self):
@@ -50,7 +51,7 @@ class Game:
             print(f"Could not load background music: {e}")
         
         # Load and scale background
-        bg_path = os.path.join(BG_DIR, 'bg0.png')
+        bg_path = os.path.join(IMG_BG_DIR, 'bg0.png')
         try:
             self.background = pygame.image.load(bg_path).convert()
             self.background = pygame.transform.scale(self.background, (WIDTH, HEIGHT))
@@ -91,7 +92,7 @@ class Game:
         self.health_bars = []
         try:
             for hb_file in HEALTH_BAR_IMAGES:
-                img = pygame.image.load(os.path.join(Util_DIR, hb_file)).convert_alpha()
+                img = pygame.image.load(os.path.join(IMG_UTIL_DIR, hb_file)).convert_alpha()
                 # Scale the health bar image if needed
                 img = pygame.transform.scale(img, (140, 20))  # Adjust size as needed
                 self.health_bars.append(img)
@@ -101,16 +102,25 @@ class Game:
 
         # Load score icon
         try:
-            self.score_icon = pygame.image.load(os.path.join(Util_DIR, 'star.png')).convert_alpha()
+            self.score_icon = pygame.image.load(os.path.join(IMG_UTIL_DIR, 'star.png')).convert_alpha()
             self.score_icon = pygame.transform.scale(self.score_icon, SCORE_ICON_SIZE)
         except pygame.error as e:
             print(f"Error loading score icon: {e}")
             self.score_icon = None
 
+
+
+
+
+
     def create_aliens(self):
         # Initial spawn of a few aliens
         for _ in range(3):  # Start with 3 aliens
             self.spawn_alien()
+
+
+
+
 
     def spawn_alien(self):
         # Randomly position alien at the top of the screen
@@ -119,6 +129,9 @@ class Game:
         alien.speed = random.uniform(0.2, 1)  # Vertical speed
         self.all_sprites.add(alien)
         self.aliens.add(alien)
+
+
+
 
     def run(self):
         running = True
@@ -131,6 +144,9 @@ class Game:
         
         pygame.quit()
         sys.exit()
+
+
+
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -155,12 +171,18 @@ class Game:
                         self.player.shoot(self.all_sprites, self.bullets)
         return True
 
+
+
+
     def update(self):
         self.all_sprites.update()
         self.handle_alien_movement()
         self.handle_alien_shooting()
         self.check_collisions()
         self.explosions.update()
+
+
+
 
     def handle_alien_movement(self):
         # Spawn new aliens periodically
@@ -194,6 +216,10 @@ class Game:
             if alien.rect.bottom >= self.player.rect.top:
                 self.game_over = False
 
+
+
+
+
     def handle_alien_shooting(self):
         self.shoot_timer += 0.2
         if self.shoot_timer > 10 and len(self.aliens) > 0:
@@ -220,6 +246,9 @@ class Game:
                 )
                 self.all_sprites.add(alien_bullet)
                 self.alien_bullets.add(alien_bullet)
+
+
+
 
     def check_collisions(self):
         # Check bullet-alien collisions
@@ -256,6 +285,10 @@ class Game:
             self.explosions.add(explosion)
             self.player.kill()
 
+
+
+
+
     def draw(self):
         # Draw background
         if self.background:
@@ -290,6 +323,11 @@ class Game:
         
         pygame.display.flip()
 
+
+
+
+
+
     def draw_score(self):
         # Draw score icon
         if self.score_icon:
@@ -304,12 +342,20 @@ class Game:
         if hasattr(self, 'draw_health_bar'):
             self.draw_health_bar()
 
+
+
+
+
     def draw_health_bar(self):
         if self.health_bars:
             # Clamp health value to valid range for array index
             health_index = max(0, min(self.player.health, len(self.health_bars) - 1))
             health_bar = self.health_bars[health_index]
             self.screen.blit(health_bar, HEALTH_BAR_POSITION)
+
+
+
+
 
     def draw_game_over(self):
         # Pause music when game over screen appears
@@ -326,6 +372,9 @@ class Game:
         self.screen.blit(game_over_text, game_over_rect)
         self.screen.blit(restart_text, restart_rect)
         self.screen.blit(score_text, score_rect)
+
+
+
 
     def reset_game(self):
         self.game_over = False

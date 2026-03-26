@@ -1,15 +1,15 @@
 import os
 import pygame
-from ..constants import *
+from ..utils.constants import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         # Load player ship image
         try:
-            self.image = pygame.image.load(os.path.join(IMG_DIR, 'blue_ship.png')).convert_alpha()
+            self.image = pygame.image.load(os.path.join(IMG_SHIP_DIR, 'ship1.png')).convert_alpha()
             # Scale image if needed (adjust size as necessary)
-            self.image = pygame.transform.scale(self.image, (50, 40))
+            self.image = pygame.transform.scale(self.image, (80, 60))
         except pygame.error:
             # Fallback to original triangle shape if image loading fails
             self.image = pygame.Surface((50, 40))

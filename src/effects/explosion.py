@@ -1,6 +1,6 @@
 import pygame
 import os
-from ..constants import *
+from ..utils.constants import *
 
 class Explosion(pygame.sprite.Sprite):
     def __init__(self, center_x, center_y):
@@ -10,7 +10,7 @@ class Explosion(pygame.sprite.Sprite):
         # Load the 3 snowflake images
         try:
             for i in range(3):  # Using 3 frames for the explosion
-                img = pygame.image.load(os.path.join(IMG_DIR, f'explosion{i}.png')).convert_alpha()
+                img = pygame.image.load(os.path.join(IMG_EXPLOSION_DIR, f'explosion{i}.png')).convert_alpha()
                 img = pygame.transform.scale(img, (30, 30))  # Adjust size as needed
                 self.images.append(img)
         except pygame.error:
