@@ -3,18 +3,24 @@ import pygame
 import random
 import sys
 
+from .state import GameState
+
 from ..utils.constants import *
 from ..utils.config import get_config
+
 from ..entities.player import Player
 from ..entities.alien import Alien
 from ..entities.bullet import Bullet
 from ..entities.alien_bullet import AlienBullet
+
 from ..effects.explosion import Explosion
 
 class Game:
     def __init__(self):
         pygame.init()
         pygame.mixer.init()
+        
+        self.state = GameState.MENU
 
         # Load config for runtime behavior
         self.config = get_config()
@@ -68,7 +74,7 @@ class Game:
         
         # Initialize game state variables
         self.score = 0
-        self.game_over = False
+        self.state = GameState.MENU
         self.alien_direction = 1  # 1 for right, -1 for left
         self.shoot_timer = 0
         self.paused = False  # Add pause state variable
@@ -126,7 +132,7 @@ class Game:
         # Randomly position alien at the top of the screen
         x = random.randint(50, WIDTH - 50)  # Random x position
         alien = Alien(x, -50)  # Start above the screen
-        alien.speed = random.uniform(0.2, 1)  # Vertical speed
+        alien.speed = random.uniform(0.2, 1)  
         self.all_sprites.add(alien)
         self.aliens.add(alien)
 
@@ -138,7 +144,7 @@ class Game:
         while running:
             self.clock.tick(FPS)
             running = self.handle_events()
-            if not self.game_over and not self.paused:  # Only update if game is active
+            if self.state == GameState.PLAYING:
                 self.update()
             self.draw()
         
@@ -205,7 +211,7 @@ class Game:
                 alien.kill()
                 self.player.take_damage()
                 if self.player.health <= 0:
-                    self.game_over = True
+                    self.state = GameState.GAME_OVER
 
         # Check if any alien hits screen edges
         alien_move_down = False
@@ -219,12 +225,12 @@ class Game:
         if alien_move_down:
             for alien in self.aliens:
                 alien.rect.y += 30
-                alien.speed = self.alien_direction
+                alien.speed_x = self.alien_direction * 2  # Update horizontal speed with new direction
 
         # Check if aliens reached player level
         for alien in self.aliens:
             if alien.rect.bottom >= self.player.rect.top:
-                self.game_over = False
+                self.state = GameState.GAME_OVER
 
 
 
@@ -274,7 +280,7 @@ class Game:
         # Check alien bullet-player collision
         if pygame.sprite.spritecollide(self.player, self.alien_bullets, True):
             if self.player.take_damage():  # Will return True if health reaches 0
-                self.game_over = True
+                self.state = GameState.GAME_OVER
             # Flash the player or show hit animation here if desired
 
         # Check if all aliens destroyed
@@ -286,10 +292,10 @@ class Game:
         # End game when alien hit player
         for alien in self.aliens:
             if pygame.sprite.collide_rect(alien, self.player):
-                self.game_over = True
+                self.state = GameState.GAME_OVER
 
         # Use explosion on player hit
-        if self.game_over:
+        if self.state == GameState.GAME_OVER:
             explosion = Explosion(self.player.rect.centerx, self.player.rect.centery)
             self.all_sprites.add(explosion)
             self.explosions.add(explosion)
@@ -407,13 +413,14 @@ class Game:
 
 
     def reset_game(self):
-        self.game_over = False
+        self.state = GameState.MENU
         self.score = 0
         self.all_sprites.empty()
         self.aliens.empty()
         self.bullets.empty()
         self.alien_bullets.empty()
         self.player = Player()
+        self.player.control_keys = self.control_keys
         self.all_sprites.add(self.player)
         self.create_aliens()
         self.alien_direction = 1
