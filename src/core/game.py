@@ -152,23 +152,33 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
-            if event.type == pygame.KEYDOWN:
-                if event.key == self.control_keys.get('pause') and not self.game_over:
-                    # Only allow pause toggle during active gameplay
-                    self.paused = not self.paused
-                    if self.paused:
-                        pygame.mixer.music.pause()
-                    else:
-                        pygame.mixer.music.unpause()
-                elif event.key == self.control_keys.get('restart') and self.game_over:
-                    self.reset_game()
-                elif event.key == self.control_keys.get('shoot') and not self.paused and not self.game_over:
-                    self.player.shoot(self.all_sprites, self.bullets)
 
-            if not self.paused and not self.game_over:
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
+            if event.type == pygame.KEYDOWN:
+
+                # ===== MENU =====
+                if self.state == GameState.MENU:
+                    if event.key == pygame.K_RETURN:
+                        self.start_game()
+
+                # ===== PLAYING =====
+                elif self.state == GameState.PLAYING:
+                    if event.key == self.control_keys.get('pause'):
+                        self.state = GameState.PAUSED
+                        pygame.mixer.music.pause()
+
+                    elif event.key == self.control_keys.get('shoot'):
                         self.player.shoot(self.all_sprites, self.bullets)
+
+                # ===== PAUSED =====
+                elif self.state == GameState.PAUSED:
+                    if event.key == self.control_keys.get('pause'):
+                        self.state = GameState.PLAYING
+                        pygame.mixer.music.unpause()
+
+                # ===== GAME OVER =====
+                elif self.state == GameState.GAME_OVER:
+                    if event.key == self.control_keys.get('restart'):
+                        self.reset_game()
         return True
 
 
@@ -290,37 +300,21 @@ class Game:
 
 
     def draw(self):
-        # Draw background
-        if self.background:
-            self.screen.blit(self.background, (0, 0))
-        else:
-            self.screen.fill(BLACK)
-        
-        # Draw sprites
-        self.all_sprites.draw(self.screen)
-        
-        # Draw score
-        self.draw_score()
-        
-        # Draw health bar
-        self.draw_health_bar()
-        
-        if self.game_over:
+
+        if self.state == GameState.MENU:
+            self.draw_menu()
+
+        elif self.state == GameState.PLAYING:
+            self.draw_game()
+
+        elif self.state == GameState.PAUSED:
+            self.draw_game()
+            self.draw_pause_overlay()
+
+        elif self.state == GameState.GAME_OVER:
+            self.draw_game()
             self.draw_game_over()
-        
-        if self.paused:
-            # Create semi-transparent overlay
-            overlay = pygame.Surface((WIDTH, HEIGHT))
-            overlay.fill((0, 0, 0))
-            overlay.set_alpha(128)
-            self.screen.blit(overlay, (0, 0))
-            
-            # Draw pause text
-            pause_rect = self.pause_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 30))
-            hint_rect = self.pause_hint.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 30))
-            self.screen.blit(self.pause_text, pause_rect)
-            self.screen.blit(self.pause_hint, hint_rect)
-        
+
         pygame.display.flip()
 
 
