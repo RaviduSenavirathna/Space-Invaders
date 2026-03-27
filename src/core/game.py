@@ -319,7 +319,27 @@ class Game:
 
 
 
+    def start_game(self):
+        self.reset_game()
+        self.state = GameState.PLAYING
 
+    def draw_menu(self):
+        self.screen.fill((0, 0, 0))
+
+        title = self.font.render("SPACE INVADERS", True, (255, 255, 255))
+        start = self.font.render("Press ENTER to Start", True, (255, 255, 255))
+
+        self.screen.blit(title, title.get_rect(center=(WIDTH//2, HEIGHT//2 - 50)))
+        self.screen.blit(start, start.get_rect(center=(WIDTH//2, HEIGHT//2 + 20)))
+
+    def draw_pause_overlay(self):
+        overlay = pygame.Surface((WIDTH, HEIGHT))
+        overlay.set_alpha(150)
+        overlay.fill((0, 0, 0))
+
+        text = self.font.render("PAUSED", True, (255, 255, 255))
+        self.screen.blit(overlay, (0, 0))
+        self.screen.blit(text, text.get_rect(center=(WIDTH//2, HEIGHT//2)))
 
 
     def draw_score(self):
@@ -366,6 +386,22 @@ class Game:
         self.screen.blit(game_over_text, game_over_rect)
         self.screen.blit(restart_text, restart_rect)
         self.screen.blit(score_text, score_rect)
+
+
+
+
+    def draw_game(self):
+        # Draw background
+        if self.background:
+            self.screen.blit(self.background, (0, 0))
+        else:
+            self.screen.fill(BLACK)
+        
+        # Draw all sprites
+        self.all_sprites.draw(self.screen)
+        
+        # Draw score and health
+        self.draw_score()
 
 
 
